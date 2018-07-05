@@ -1,0 +1,169 @@
+.detail {
+  overflow-x: hidden;
+  // 头部
+  .header {
+    background: #fff;
+    &__cover {
+      position: relative;
+      .cover {
+        display: block;
+      }
+      .countDown {
+        width: 100%;
+        padding: 2.6vw 0;
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        font-size: 3.5vw;
+        text-align: center;
+        color: #fff;
+        background-color: rgba(226, 81, 60, 0.68);
+      }
+    }
+    &__content {
+      padding: 12px;
+      line-height: 1;
+      .title,.price {
+        font-size: 16px;
+        font-weight: normal;
+      }
+      .price {
+        margin-top: 8px;
+        color: #e2513c;
+      }
+    }
+  }
+  // 活动信息
+  .lists {
+    margin-bottom: 15px;
+    border-top: 1px solid #e5e5e5;
+    border-bottom: 1px solid #e5e5e5;
+    overflow: hidden;
+    background: #fff;
+    .list {
+      padding: 12px 0;
+      margin-left: 12px;
+      border-bottom: 1px solid #e5e5e5;
+      font-size: 14px;
+      &:last-child {
+        border-bottom: none;
+      }
+      .iconfont {
+        color: #a7a7a7;
+        margin-right: 12px;
+      }
+    }
+  }
+  // 报名人数栏
+  .sign-up-box {
+    padding-left: 4vw;
+    .item {
+      padding: 3vw 0;
+      position: relative;
+      .iconfont {
+        font-size: 5vw;
+        color: @red-color;
+        margin-right: 2vw;
+      }
+      span {
+        font-size: 14px;
+      }
+      .icon-jiantou {
+        position: absolute;
+        right: 2vw;
+        top: 50%;
+        transform: translateY(-50%);
+        color: @gray-color;
+        font-size: 4vw;
+      }
+    }
+    //  签到人数
+    .sign-up {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      line-height: 1;
+      .right {
+        display: flex;
+        padding-right: 10vw;
+        .img {
+          width: 8vw;
+          height: 8vw;
+          border-radius: 50%;
+          overflow: hidden;
+          border: 2px solid #ffffff;
+          box-sizing: border-box;
+          margin-left: -2vw;
+          &:first-child {
+            margin-left: 0;
+          }
+          img {
+            width: 100%;
+          }
+        }
+      }
+    }
+  }
+  // 活动详情
+  .context {
+    margin-top: 15px;
+    .title {
+      padding: 12px;
+      display: flex;
+      align-items: center;
+      font-size: 14px;
+      &:before {
+        font-size: 16px;
+        margin-right: 12px;
+        color: @red-color;
+      }
+    }
+    .html {
+      padding: 12px;
+    }
+  }
+  // 取消按钮
+  .cancel-sign {
+    margin-top: 15px;
+    font-size: 14px;
+    text-align: center;
+    color: #b7b7b7;
+  }
+  // 按钮组
+  .bottom-group {
+    height: 15vw;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    display: flex;
+    .left {
+      width: 35vw;
+      display: inline-flex;
+      flex-flow: column;
+      justify-content: center;
+      align-items: center;
+      color: @theme-color;
+      background-color: rgb(248, 248, 248);
+      font-size: 15px;
+      .iconfont {
+        font-size: 18px;
+      }
+    }
+    .right {
+      width: 65vw;
+      display: inline-flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 16px;
+      color: #fff;
+      background-color: @theme-color;
+      &.pay {
+        background-color: #62b900;
+      }
+      &.disabled {
+        background-color: #d0d0d0;
+      }
+    }
+  }
+}

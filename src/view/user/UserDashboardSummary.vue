@@ -1,0 +1,105 @@
+<template>
+  <scroller v-if="list.length > 0" :on-infinite="loadMore" :on-refresh="refresh" ref="myscroller">
+    <div>
+      <summary-item v-for="(item, i) in list" :item="item" :key="i" @click.native="toDetail(item.id)"></summary-item>
+    </div>
+  </scroller>
+  <div v-else class="null">暂无数据</div>
+</template>
+
+<script>
+import SummaryItem from '../../components/SummaryItem'
+export default {
+  components: {
+    SummaryItem
+  },
+  data () {
+    return {
+      height: 0,
+      noData: true,
+      searchData: {
+        sourceId: '',
+        pageNum: 1,
+        // pageSize: 10,
+      },
+      list: []
+    }
+  },
+  created() {
+    this.searchData.sourceId = this.$route.query.sourceId
+    this.getPageList()
+  }, 
+  mounted () {
+    this.getHeight()
+    window.onresize = () => {
+      this.getHeight();
+    }
+  },
+  methods: {
+    getHeight() {
+      this.height = window.innerHeight;
+    },
+    toDetail(id) {
+      this.$router.push(`/user/summaryDetail?id=${id}`)
+    },
+    getPageList() {
+      this.$vux.loading.show()
+      this.$http.get('partakeSense/page', this.searchData).then(res => {
+        console.log('回顾列表===',res.data)
+        this.list = res.data.data.list
+      }).finally(() => {
+        this.$vux.loading.hide()
+      });
+    },
+    loadMore(done) {
+      if(this.noData) {
+        this.$nextTick(() => {
+          this.$refs.myscroller.finishInfinite(2);
+        })
+        return;
+      }
+      console.log('上拉')
+      // 总页数
+      // let totalPage = total % size == 0 ? total / size : Math.ceil(total / size) ;
+      // // console.log(original,list,resData)
+      // if(page == 1) list = [];
+      
+      // if(page >= totalPage){
+  //       this.arr = list.concat(resData);
+  //       this.noData = true;
+      // }else{
+  //       this.arr = list.concat(resData);
+  //       this.noData = false;
+  //       this.searchData.pageNum = page + 1;
+      // }
+      self.$refs.myscroller.resize();
+      done()
+    },
+    refresh(done) {
+      console.log('下拉');
+      this.searchData.pageNum = 1;
+      this.getPageList()
+      let timeOut = setTimeout(()=>{
+        // 停止下拉刷新
+        // this.$refs.myscroller.finishPullToRefresh()
+        done() 
+      }, 600)
+    }
+  }
+}
+</script>
+<style lang="less" scoped>
+
+.null{
+  text-align: center;
+  color: #808080;
+  font-size: 15px;
+  padding-top: 45vh;
+}
+
+.summary{
+  width:100vw;
+  height:100%;
+  background: #fff;
+}
+</style>
