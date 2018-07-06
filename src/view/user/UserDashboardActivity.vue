@@ -8,41 +8,61 @@
       <tab-item selected @on-item-click="onItemClick(1)">进行中</tab-item>
       <tab-item @on-item-click="onItemClick(2)">已结束</tab-item>
     </tab>
-    <scroller lock-x height="-44px">
-      <div v-if="list.length > 0" style="padding-top:10px;background:#fff">
-        <ActivityItem v-for="(item, i) in list" :key="i" :item="item" @click.native="jumpPage(`/activity/detail?id=${item.id}`)" />
+    <ScrollView class="scroller" ref="scroll" height="-44px"
+      :pageNum="search.pageNum"
+      :size="search.pageSize"
+      :total="search.total"
+      @pullingUp="apiGetList">
+      <div>
+        <div v-if="list.length > 0">
+          <ActivityItem v-for="(item, i) in list" :key="i" :item="item" @click.native="jumpPage(`/activity/detail?id=${item.id}`)" />
+        </div>
       </div>
-      <div v-else style="text-align: center;padding-top: 40vh;color: #b7b7b7;font-size: 15px;">暂无数据</div>
-    </scroller> 
+    </ScrollView>
   </div>
 </template>
 
 <script>
+import { Tab, TabItem } from "vux";
 import ActivityItem from "@/components/ActivityItem";
-import { Tab, TabItem, Scroller } from "vux";
+import ScrollView from "../../components/ScrollView";
+
 export default {
   components: {
-    ActivityItem,
     Tab,
     TabItem,
-    Scroller
+    ActivityItem,
+    ScrollView,
   },
   data() {
     return {
-      list: []
+      list: [],
+      search: {
+        pageNum: 1,
+        pageSize: 20,
+        total: 0,
+        status: 1
+      }
     };
   },
-  created() {
-    this.apiGetActiveList();
+  mounted() {
+    this.apiGetList();
   },
   methods: {
-    apiGetActiveList(status = 1) {
-      this.$http.get("/activity/signActivityPage", { status }).then(res => {
-        this.list = res.data.data.list;
+    apiGetList() {
+      this.$http.get("/activity/signActivityPage", this.search).then(res => {
+        this.search.total = res.data.data.total;
+        this.search.pageNum++;
+        this.list = [...this.list, ...res.data.data.list]
+        this.$refs.scroll._reset();
       });
     },
     onItemClick(type) {
-      this.apiGetActiveList(type);
+      this.search.status = type;
+      this.search.pageNum = 1;
+      this.list = [];
+      this.$refs.scroll._reset({top: 0});
+      this.apiGetList();
     },
     jumpPage(url) {
       this.$router.push(url);

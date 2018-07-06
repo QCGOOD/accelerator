@@ -2,38 +2,52 @@
   <div>
     <tab bar-active-color="#668599" :line-width="0">
       <tab-item selected @on-item-click="onItemClick()">全部</tab-item>
-      <tab-item v-for="c in categorys" :selected="selectedId == c.id" :key="c.id" @on-item-click="onItemClick(c.id)">{{c.name}}</tab-item>
+      <tab-item v-for="c in categorys" :selected="search.selectedId == c.id" :key="c.id" @on-item-click="onItemClick(c.id)">{{c.name}}</tab-item>
     </tab>
-    <scroller lock-x height="-44px">
-      <div v-if="list.length > 0"  style="padding-top:10px;background:#fff">
-        <act-item v-for="(item, i) in list" :key="i" :item="item" @click.native="jumpPage(`/activity/detail?id=${item.id}`)"></act-item>
+    <ScrollView class="scroller" ref="scroll" height="-44px"
+      :pageNum="search.pageNum"
+      :size="search.pageSize"
+      :total="search.total"
+      @pullingUp="apiGetActiveList">
+      <div>
+        <div v-if="list.length > 0">
+          <activity-item v-for="(item, i) in list" :key="i" :item="item" @click.native="jumpPage(`/activity/detail?id=${item.id}`)"></activity-item>
+        </div>
       </div>
-      <div v-else style="text-align: center;padding-top: 40vh;color: #b7b7b7;font-size: 15px;">暂无数据</div>
-    </scroller> 
+    </ScrollView>
   </div>
 </template>
 
 <script>
-import { Tab, TabItem, Scroller } from "vux";
-import ActItem from "@/components/ActivityItem";
+import { Tab, TabItem } from "vux";
+import ActivityItem from "@/components/ActivityItem";
+import ScrollView from "../../components/ScrollView";
+
 export default {
   components: {
-    ActItem,
     Tab,
     TabItem,
-    Scroller
+    ActivityItem,
+    ScrollView,
   },
   data() {
     return {
       list: [],
       categorys: [],
-      selectedId: '',
+      search: {
+        selectedId: '',
+        pageNum: 1,
+        pageSize: 20,
+        total: 0,
+      }
     };
   },
   created() {
     this.selectedId = this.$route.query.id;
-    this.apiGetActiveList(this.selectedId);
     this.apiGetCategorys();
+  },
+  mounted() {
+    this.apiGetActiveList(this.selectedId);
   },
   methods: {
     apiGetCategorys() {
@@ -43,25 +57,26 @@ export default {
         });
     },
     apiGetCategory(id) {
-      this.$http
-        .get("/category/page", {
-          parentId: id
-        })
+      this.$http.get("/category/page", { parentId: id })
         .then(res => {
           this.categorys = res.data.data.list;
         });
     },
-    apiGetActiveList(categoryId) {
-      this.$vux.loading.show()
-      this.$http.get("/activity/page", { categoryId }).then(res => {
-        this.list = res.data.data.list;
-      }).finally(() => {
-        this.$vux.loading.hide()
-      });
+    apiGetActiveList() {
+      this.$http.get("/activity/page", this.search)
+        .then(res => {
+          this.search.pageNum++;
+          this.search.total = res.data.data.total;
+          this.list = [...this.list, ...res.data.data.list]
+          this.list = res.data.data.list;
+        })
     },
     onItemClick(v) {
-      this.selectedId = v;
-      this.apiGetActiveList(v)
+      this.search.selectedId = v;
+      this.search.pageNum = 1;
+      this.list = [];
+      this.$refs.scroll._reset({top: 0});
+      this.apiGetActiveList()
     },
     jumpPage(url) {
       this.$router.push(url);

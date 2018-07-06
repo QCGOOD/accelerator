@@ -1,54 +1,53 @@
 <template>
-  <scroller lock-x ref="scroll" class="scroller" height="-55.88" style="background:#f2f2f2;">
+  <ScrollView  class="scroller" ref="scroll" height="-55.88px"
+    :pageNum="search.pageNum"
+    :size="search.pageSize"
+    :total="search.total"
+    @pullingUp="apiGetList">
     <div>
-      <div v-if="courseList.length > 0">
-        <CourseItem class="course-item" v-for="(item, i) in courseList" :key="i" @click.native="toDetail(item.id)" :item="item"/>
-        <Qc/>
+      <div v-if="list.length > 0">
+        <CourseItem class="course-item" v-for="(item, i) in list" :key="i" @click.native="toDetail(item.id)" :item="item"/>
       </div>
       <div v-else class="null">暂无数据</div>
     </div>
-  </scroller>
+  </ScrollView>
 </template>
 
 <script>
 import CourseItem from "../../components/CourseItem";
-import { Scroller } from "vux";
+import ScrollView from "../../components/ScrollView";
 
 export default {
   components: {
     CourseItem,
-    Scroller
+    ScrollView
   },
   data() {
     return {
       noData: true,
-      courseList: [],
-      searchData: {
-        pageNum: 1
+      list: [],
+      search: { 
+        pageNum: 1,
+        pageSize: 20,
+        total: 0
       }
     };
   },
-  created() {
-    this.getLessonList();
+  mounted() {
+    this.apiGetList();
   },
   methods: {
     toDetail(id) {
       this.$router.push(`/curriculum/detail?id=${id}`);
     },
-    getLessonList() {
-      this.$vux.loading.show();
-      this.$http.get("/course/page")
+    apiGetList() {
+      this.$http.get("/course/page", this.search)
         .then(res => {
-          res.data.data.list.map(data => {
-            this.courseList.push(data);
-          });
-        })
-        .finally(() => {
-          this.$vux.loading.hide();
+          this.search.total = res.data.data.total;
+          this.search.pageNum++;
+          this.list = [...this.list, ...res.data.data.list]
+          this.$refs.scroll._reset();
         });
-      this.$nextTick(() => {
-        this.$refs.scroll.reset();
-      });
     }
   }
 };

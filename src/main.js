@@ -2,7 +2,6 @@
 // (runtime-only or standalone) has been set in webpack.base.conf with an alias.
 import Vue from 'vue'
 import { ToastPlugin, LoadingPlugin, VuxComponentListData,ConfirmPlugin, AlertPlugin  } from 'vux'
-import VueScroller from 'vue-scroller'
 import App from './App'
 import router from './router'
 import store from './store'
@@ -12,7 +11,6 @@ import http from "./api/http";
 const FastClick = require('fastclick')
 FastClick.attach(document.body)
 Vue.config.productionTip = false
-Vue.use(VueScroller)
 Vue.use(ToastPlugin)
 Vue.use(LoadingPlugin)
 Vue.use(ConfirmPlugin)
