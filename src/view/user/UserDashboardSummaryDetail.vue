@@ -246,7 +246,7 @@ export default {
       let params = {
         ruleId: this.couponId || '',
         shareMemberId: this.$route.query.shareMemberId || '',
-        channelCode: this.$route.query.channelCode || ''
+        channelCode: this.$route.query.chc || ''
       }
       this.$http.post('/coupon', params).then(res => {
         if(res.data.code == 20000){

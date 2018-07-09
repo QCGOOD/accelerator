@@ -35,7 +35,7 @@
       </div>
       <div class="info">
         <divider>活动规则</divider>
-        <p class="info-text">{{detail.content}}</p>
+        <p class="info-text" v-html="detail.content"></p>
       </div>
     </div>
     <Qc style="position: fixed;width: 100%;bottom: 0;"/>
@@ -82,7 +82,7 @@ export default {
       let params = {
         ruleId: this.$route.query.id || '',
         shareMemberId: this.$route.query.shareMemberId || '',
-        channelCode: this.$route.query.channelCode || ''
+        channelCode: this.$route.query.chc || ''
       }
       this.$http.post('/coupon', params)
       .then(res => {
