@@ -14,9 +14,13 @@
       <img class="bg" src="static/image/right.png" alt="">
       <div class="circle">
         <p>VALUE</p>
-        <p>
+        <p v-if="item.type == 1">
           <span>￥</span>
-          {{item.amount / 100}}
+          <span class="amount">{{item.amount / 100}}</span>
+        </p>
+        <p v-if="item.type == 2">
+          <span class="amount">{{item.amount / 10}}</span>
+          <span>折</span>
         </p>
       </div>
       <p class="time">有效期至：{{item.expireTime}}</p>
@@ -147,13 +151,11 @@ export default {
           font-weight: bold;
         }
         &:last-child {
-          font-size: 7vw;
           font-family: Georgia;
-          span {
-            font-size: 4vw;
-            margin-right: -2.5vw;
-            position: relative;
-            top: -2vw;
+          font-size: 4vw;
+          .amount{
+            font-size: 7vw;
+            padding-right: 2px;
           }
         }
       }

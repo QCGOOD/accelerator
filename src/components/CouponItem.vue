@@ -14,9 +14,13 @@
       <img class="bg" src="static/image/right.png" alt="">
       <div class="circle">
         <p>VALUE</p>
-        <p>
+        <p v-if="item.type == 1">
           <span>￥</span>
-          {{item.type | amount(item.amount)}}
+          <span class="amount">{{item.amount / 100}}</span>
+        </p>
+        <p v-if="item.type == 2">
+          <span class="amount">{{item.amount / 10}}</span>
+          <span>折</span>
         </p>
       </div>
       <p class="time">有效期至：{{item.expireTime | dateFormat}}</p>
@@ -55,10 +59,6 @@ export default {
       if(type == 1)return '抵扣券'
       else if(type == 2) return '折扣券'
     },
-    amount(type, amount) {
-      if(type == 1) return amount/100
-      else if(type == 2) return amount+'折'
-    },
     scope(val) {
       if(val == 303) return '部分活动分类可用'
       else if(304) return '部分活动可用'
@@ -81,7 +81,7 @@ export default {
   position: relative;
   .left {
     flex-shrink: 0;
-    width: 65%;
+    width: 60%;
     color: #fff;
     text-align: right;
     padding-right: 3vw;
@@ -121,7 +121,7 @@ export default {
   }
   .right {
     position: relative;
-    width: 35%;
+    width: 40%;
     .bg {
       position: absolute;
       width: 100%;
@@ -162,21 +162,20 @@ export default {
           font-weight: bold;
         }
         &:last-child {
-          font-size: 7vw;
           font-family: Georgia;
-          span {
-            font-size: 4vw;
-            margin-right: -2.5vw;
-            position: relative;
-            top: -2vw;
+          font-size: 4vw;
+          .amount{
+            font-size: 7vw;
+            padding-right: 2px;
           }
+          
         }
       }
     }
     .time {
       margin-top: 1vw;
       position: relative;
-      font-size: 3.2vw;
+      font-size: 10px;
       text-align: center;
       color: @gray-color;
     }

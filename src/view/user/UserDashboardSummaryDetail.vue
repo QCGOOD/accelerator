@@ -177,7 +177,6 @@ export default {
   },
   created() {
     this.apiGetUser()
-    this.getlessonFeel()
     // 是否可以点赞
     this.apiIsLike()
     // 获取点赞列表
@@ -264,6 +263,7 @@ export default {
     apiGetUser() {
       this.$http.get("/member/info").then(res => {
         this.user = res.data.data;
+        this.getlessonFeel()
       });
     },
     getlessonFeel() {
@@ -272,11 +272,7 @@ export default {
         this.feel = res.data.data.partakeSense
         this.feel.imgUrl = JSON.parse(this.feel.imgUrl)
         // 分享
-        let shareUrl = `${this.$ROOTURL}/mobile/POUND/user/summaryDetail?wo=1&wot=2&woacm=1&mpl=1&id=${this.$route.query.id}&isShare=true`;
-        // if(this.$route.query.actId){
-        //   // 活动回顾  可能有优惠券
-        //   shareUrl = `${this.$ROOTURL}/mobile/POUND/user/summaryDetail?wo=1&wot=2&woacm=1&mpl=1&id=${this.$route.query.id}&actId=${this.$route.query.actId}&isShare=true`
-        // }
+        let shareUrl = `${this.$ROOTURL}/mobile/POUND/user/summaryDetail?wo=1&wot=2&woacm=1&mpl=1&id=${this.$route.query.id}&isShare=true${this.user.shareParameter}&shareMemberId=${this.user.id}`;
         this.$wxSdk.onMenuShare(
           this.feel.title,
           `我在加速商学院学习，超过${this.feel.studyDays}天啦，你也快来试试吧~`,
@@ -289,7 +285,6 @@ export default {
           this.couponId = res.data.data.reviewSummary.couponRuleId
           this.haveCoupon(this.couponId)
         }
-        // if(this.$route.query.actId) this.getActi()
       })
     },
     // 获取h活动
@@ -297,6 +292,7 @@ export default {
       this.$http.get('/activity/get', {id: this.$route.query.actId}).then(res => {
         if(res.data.data.couponRuleId) {
           this.couponId = res.data.data.couponRuleId
+          alert(this.couponId)
           this.haveCoupon(res.data.data.couponRuleId)
         }
       })
@@ -308,7 +304,7 @@ export default {
       this.$wxSdk.onMenuShare(
         "我在加速商学院学习，感觉挺不错，你也来看看吧~",
         `课程试听券等你来拿，手快有，手慢无~`,
-        `${this.$ROOTURL}/mobile/POUND/user/summaryDetail?isShare=true&id=${this.$route.query.id}&actId=${this.$route.query.actId}${this.userInfo.shareParameter}`,
+        `${this.$ROOTURL}/mobile/POUND/user/summaryDetail?isShare=true&id=${this.$route.query.id}&actId=${this.$route.query.actId}${this.user.shareParameter}&shareMemberId=${this.user.id}`,
         'http://athena-1255600302.cosgz.myqcloud.com/attachments/activity/fea644b6d6294c3fad029769d69de5f4.png',
         this.recordShare
       );

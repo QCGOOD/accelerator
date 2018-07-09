@@ -52,6 +52,9 @@ export default {
           this.typeWidth = this.categorys.length * 24 - 4;
         });
     },
+    jumpPage(url) {
+      this.$router.push(url);
+    }
   }
 };
 </script>

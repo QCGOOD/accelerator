@@ -102,7 +102,7 @@ export default {
         this.$wxSdk.onMenuShare(
           "课程试听券等你来拿，手快有，手慢无~",
           this.detail.couponTitle,
-          `${this.$ROOTURL}/mobile/POUND/coupon/getCoupon?id=${this.$route.query.id}${this.userInfo.shareParameter}`,
+          `${this.$ROOTURL}/mobile/POUND/coupon/getCoupon?id=${this.$route.query.id}${this.userInfo.shareParameter}${this.userInfo.shareParameter}&shareMemberId=${this.userInfo.id}`,
           'http://athena-1255600302.cosgz.myqcloud.com/attachments/activity/fea644b6d6294c3fad029769d69de5f4.png',
         );
       })

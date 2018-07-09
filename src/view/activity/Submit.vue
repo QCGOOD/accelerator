@@ -180,7 +180,7 @@ export default {
     apiSaveOrder(query) {
       query.sign.sourceId = query.id;
       query.sign.checkinSettingId = query.checkinSettingId;
-      query.couponId = this.coupon.id;
+      query.couponId = this.coupon ? this.coupon.id : "";
       this.$vux.loading.show({ text: "正在提交" });
       this.$http.json("/activitySignTemp/sign", query)
         .then(res => {
