@@ -1,105 +1,70 @@
 <template>
-  <scroller v-if="list.length > 0" :on-infinite="loadMore" :on-refresh="refresh" ref="myscroller">
+  <ScrollView  class="scroller" ref="scroll" height="-55.88px"
+    :pageNum="search.pageNum"
+    :size="search.pageSize"
+    :total="search.total"
+    @pullingUp="apiGetList">
     <div>
-      <summary-item v-for="(item, i) in list" :item="item" :key="i" @click.native="toDetail(item.id)"></summary-item>
+      <div v-if="list.length > 0">
+        <summary-item v-for="(item, i) in list" :item="item" :key="i" @click.native="toDetail(item.id)"></summary-item>
+      </div>
     </div>
-  </scroller>
-  <div v-else class="null">暂无数据</div>
+  </ScrollView>
 </template>
 
 <script>
-import SummaryItem from '../../components/SummaryItem'
+import SummaryItem from "../../components/SummaryItem";
+import ScrollView from "../../components/ScrollView";
 export default {
   components: {
-    SummaryItem
+    SummaryItem,
+    ScrollView
   },
-  data () {
+  data() {
     return {
       height: 0,
       noData: true,
-      searchData: {
-        sourceId: '',
+      search: {
+        sourceId: "",
         pageNum: 1,
-        // pageSize: 10,
+        pageSize: 20,
       },
       list: []
-    }
+    };
   },
   created() {
-    this.searchData.sourceId = this.$route.query.sourceId
-    this.getPageList()
-  }, 
-  mounted () {
-    this.getHeight()
-    window.onresize = () => {
-      this.getHeight();
-    }
+    this.search.sourceId = this.$route.query.sourceId;
+  },
+  mounted() {
+    this.apiGetList();
   },
   methods: {
-    getHeight() {
-      this.height = window.innerHeight;
+    apiGetList() {
+      this.$http.get("partakeSense/page", this.search)
+        .then(res => {
+          this.search.total = res.data.data.total;
+          this.search.pageNum++;
+          this.list = [...this.list, ...res.data.data.list]
+          this.$refs.scroll._reset();
+        })
     },
     toDetail(id) {
-      this.$router.push(`/user/summaryDetail?id=${id}`)
-    },
-    getPageList() {
-      this.$vux.loading.show()
-      this.$http.get('partakeSense/page', this.searchData).then(res => {
-        console.log('回顾列表===',res.data)
-        this.list = res.data.data.list
-      }).finally(() => {
-        this.$vux.loading.hide()
-      });
-    },
-    loadMore(done) {
-      if(this.noData) {
-        this.$nextTick(() => {
-          this.$refs.myscroller.finishInfinite(2);
-        })
-        return;
-      }
-      console.log('上拉')
-      // 总页数
-      // let totalPage = total % size == 0 ? total / size : Math.ceil(total / size) ;
-      // // console.log(original,list,resData)
-      // if(page == 1) list = [];
-      
-      // if(page >= totalPage){
-  //       this.arr = list.concat(resData);
-  //       this.noData = true;
-      // }else{
-  //       this.arr = list.concat(resData);
-  //       this.noData = false;
-  //       this.searchData.pageNum = page + 1;
-      // }
-      self.$refs.myscroller.resize();
-      done()
-    },
-    refresh(done) {
-      console.log('下拉');
-      this.searchData.pageNum = 1;
-      this.getPageList()
-      let timeOut = setTimeout(()=>{
-        // 停止下拉刷新
-        // this.$refs.myscroller.finishPullToRefresh()
-        done() 
-      }, 600)
+      this.$router.push(`/user/summaryDetail?id=${id}`);
     }
   }
-}
+};
 </script>
 <style lang="less" scoped>
-
-.null{
+.null {
   text-align: center;
   color: #808080;
   font-size: 15px;
   padding-top: 45vh;
 }
 
-.summary{
-  width:100vw;
-  height:100%;
+.summary {
+  width: 100vw;
+  height: 100%;
   background: #fff;
 }
 </style>

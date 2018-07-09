@@ -34,7 +34,7 @@ export default {
   },
   methods: {
     apiGetList() {
-      this.$http.get("/activity/page", { pageNum: 1, pageSize:10 })
+      this.$http.get("/activity/page", { pageNum: 1, pageSize: 10 })
         .then(res => {
           this.list = res.data.data.list;
         });
