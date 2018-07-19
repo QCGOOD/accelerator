@@ -1,9 +1,9 @@
 <template>
   <div v-if="status == 0" class="sign" :style="`background: url(${this.imgCut}${model.checkUrl}) no-repeat center center;`">
-    <div class="from">
+    <div class="from" v-if="status == 0" >
       <input class="list list--input" v-model="fromModel.msg" type="text" :placeholder="`${fromModel.checkinWay == 1?'签到手机号':'签到暗号'}`"/>
       <button class="list list--button" @click="apiSaveSign">确认签到</button>
-      <p class="jump" v-if="model.isShowAirborne" @click="jumpPage()">空降嘉宾</p>
+      <button class="list list--button" v-if="model.isShowAirborne" @click="jumpPage()">空降嘉宾</button>
     </div>
     <div class="mask" v-if="failMsg">
       <div class="dialog">
@@ -140,11 +140,6 @@ export default {
         color: #fff;
         background: #ff5433;
       }
-    }
-    .jump {
-      text-align: center;
-      margin-top: 20px;
-      text-shadow: 0px 0px 1px #696969;
     }
   }
 }

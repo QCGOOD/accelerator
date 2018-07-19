@@ -191,7 +191,7 @@ export default {
             this.apiPayOrder(res.data.message);
           } else if(query.checkinSettingId){
             // 没有开启审核，不用给钱，是空降嘉宾
-            this.jumpPage(`/activity/success?type=2`);
+            this.jumpPage(`/user/sign?id=${query.checkinSettingId}&checkWay=1`);
           } else {
             // 没有开启审核，不用给钱，并且不是空降嘉宾
             this.jumpPage("/activity/success?type=0");
@@ -350,7 +350,7 @@ export default {
       padding: 4vw;
       .item {
         padding: 0 3vw;
-        margin-bottom: 3.8vw;
+        margin-top: 3.8vw;
         height: 10vw;
         display: block;
         line-height: 10vw;

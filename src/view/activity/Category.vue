@@ -2,7 +2,7 @@
   <div>
     <tab bar-active-color="#668599" :line-width="0">
       <tab-item selected @on-item-click="onItemClick()">全部</tab-item>
-      <tab-item v-for="c in categorys" :selected="search.selectedId == c.id" :key="c.id" @on-item-click="onItemClick(c.id)">{{c.name}}</tab-item>
+      <tab-item v-for="c in categorys" :selected="search.categoryId == c.id" :key="c.id" @on-item-click="onItemClick(c.id)">{{c.name}}</tab-item>
     </tab>
     <ScrollView class="scroller" ref="scroll" height="-44px"
       :pageNum="search.pageNum"
@@ -35,7 +35,7 @@ export default {
       list: [],
       categorys: [],
       search: {
-        selectedId: '',
+        categoryId: '',
         pageNum: 1,
         pageSize: 20,
         total: 0,
@@ -43,11 +43,11 @@ export default {
     };
   },
   created() {
-    this.selectedId = this.$route.query.id;
+    this.search.categoryId = this.$route.query.id;
     this.apiGetCategorys();
   },
   mounted() {
-    this.apiGetActiveList(this.selectedId);
+    this.apiGetActiveList(this.search.categoryId);
   },
   methods: {
     apiGetCategorys() {
@@ -72,7 +72,7 @@ export default {
         })
     },
     onItemClick(v) {
-      this.search.selectedId = v;
+      this.search.categoryId = v;
       this.search.pageNum = 1;
       this.list = [];
       this.$refs.scroll._reset({top: 0});
