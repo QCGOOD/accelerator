@@ -35,7 +35,7 @@
       </div>
       <div class="info">
         <divider>活动规则</divider>
-        <p class="info-text">{{detail.content}}</p>
+        <p class="info-text" v-html="detail.content"></p>
       </div>
     </div>
     <Qc style="position: fixed;width: 100%;bottom: 0;"/>
@@ -82,7 +82,7 @@ export default {
       let params = {
         ruleId: this.$route.query.id || '',
         shareMemberId: this.$route.query.shareMemberId || '',
-        channelCode: this.$route.query.channelCode || ''
+        channelCode: this.$route.query.chc || ''
       }
       this.$http.post('/coupon', params)
       .then(res => {
@@ -102,7 +102,7 @@ export default {
         this.$wxSdk.onMenuShare(
           "课程试听券等你来拿，手快有，手慢无~",
           this.detail.couponTitle,
-          `${this.$ROOTURL}/mobile/POUND/coupon/getCoupon?id=${this.$route.query.id}${this.userInfo.shareParameter}`,
+          `${this.$ROOTURL}/mobile/POUND/coupon/getCoupon?id=${this.$route.query.id}${this.userInfo.shareParameter}${this.userInfo.shareParameter}&shareMemberId=${this.userInfo.id}`,
           'http://athena-1255600302.cosgz.myqcloud.com/attachments/activity/fea644b6d6294c3fad029769d69de5f4.png',
         );
       })
