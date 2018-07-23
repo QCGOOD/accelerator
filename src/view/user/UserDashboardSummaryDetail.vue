@@ -133,6 +133,9 @@
       </div>
     </div> -->
     <!-- <previewer ref="previewer" :list="previewerList"></previewer> -->
+    <div class="home-page" @click="jumpPage('/activity')">
+      <i class="iconfont icon-msnui-home-block"></i>
+    </div>
     <div class="popup">
       <x-dialog v-model="isPopup" :dialog-style="{ 'max-width': '100%', width: '100%', height: '100%','background-color': 'transparent'}">
         <img class="shareImg1" src="../../../static/image/shareImg1.png" alt="">
@@ -333,6 +336,25 @@ export default {
 </script>
 
 <style lang="less" scoped>
+.home-page{
+  position: fixed;
+  right: 3vw;
+  bottom: 30vw;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: rgba(0, 0, 0, 0.3);
+  
+  width: 10vw;
+  height: 10vw;
+  border-radius: 50%;
+  color: #fff;
+  .iconfont{
+    display: inline-block;
+    font-size: 4.5vw;
+  }
+}
+
 .popup{
   .shareImg1, .shareImg2{
     display: block;
