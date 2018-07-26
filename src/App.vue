@@ -77,7 +77,7 @@ export default {
 <style lang="less">
 @import "~vux/src/styles/reset.less";
 @import "~vux/src/styles/1px.less";
-@import "//at.alicdn.com/t/font_661600_hpw63xcjj4o.css";
+@import "//at.alicdn.com/t/font_661600_85ebla1m9nh.css";
 
 html,body {
   background-color: #f2f2f2 !important;

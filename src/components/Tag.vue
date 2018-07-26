@@ -24,6 +24,7 @@ export default {
         case 4:
           return "进行中";
         case 5:
+          this.style = "disabled"
           return "已结束";
       }
     }
@@ -34,10 +35,14 @@ export default {
 <style lang="less" scoped>
 .tag {
   margin-top: 2px;
-  padding: 0 1.5vw;
-  font-size: 3.3vw;
-  border-radius: 1vw;
+  padding: 2px 5px 1px;
+  font-size: 12px;
+  border-radius: 3px;
   color: #d3c2a5;
   border: 1px solid #d3c2a5;
+  &.disabled {
+    color: #b2b2b2;
+    border: 1px solid #b2b2b2;
+  }
 }
 </style>

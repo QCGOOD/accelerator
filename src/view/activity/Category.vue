@@ -9,10 +9,8 @@
       :size="search.pageSize"
       :total="search.total"
       @pullingUp="apiGetActiveList">
-      <div>
-        <div v-if="list.length > 0">
-          <activity-item v-for="(item, i) in list" :key="i" :item="item" @click.native="jumpPage(`/activity/detail?id=${item.id}`)"></activity-item>
-        </div>
+      <div v-if="list.length > 0" style="padding-top: 15px;background:  #fff;">
+        <activity-item v-for="(item, i) in list" :key="i" :item="item" @click.native="jumpPage(`/activity/detail?id=${item.id}`)"></activity-item>
       </div>
     </ScrollView>
   </div>

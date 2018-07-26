@@ -13,7 +13,7 @@
       </div>
       <div class="info">
         <span class="time">
-        {{item.startTime | formatDate}}
+        {{item.startTimeStr}}
         </span>
         <span class="price" v-if="item.isEnableFee">￥{{item.activityFee.price | formatPrice}}</span>
         <span class="price" v-else>免费</span>

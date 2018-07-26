@@ -207,6 +207,7 @@ export default {
     },
     // 支付订单
     apiPayOrder(orderId, orderType = 2) {
+      
       let payReturnUrl = `${this.$ROOTURL}/mobile/#/activity/success?type=0`;
       if (this.query.checkinSettingId) {
         payReturnUrl = `${this.$ROOTURL}/mobile/#/activity/success?type=2`;
@@ -255,7 +256,22 @@ export default {
           signDataList[i].value = signDataList[i].value.join("_");
         }
       }
-      this.apiSaveOrder({ ...this.query, sign, signDataList });
+      
+      if (this.couponList.length > 0) {
+        let _this = this;
+        this.$vux.confirm.show({
+          title: '提示',
+          content: '当前有可用的优惠券，是否使用？',
+          onCancel () {
+            _this.apiSaveOrder({ ...this.query, sign, signDataList });
+          },
+          onConfirm () {
+            _this.couponWrap = true
+          }
+        })
+      } else {
+        this.apiSaveOrder({ ...this.query, sign, signDataList });
+      }
     },
     onChooseCoupon(item) {
       console.log("=====>", item);
