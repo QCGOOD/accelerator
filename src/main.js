@@ -1,7 +1,7 @@
 // The Vue build version to load with the `import` command
 // (runtime-only or standalone) has been set in webpack.base.conf with an alias.
 import Vue from 'vue'
-import { ToastPlugin, LoadingPlugin, VuxComponentListData,ConfirmPlugin, AlertPlugin  } from 'vux'
+import { ToastPlugin, LoadingPlugin, ConfirmPlugin, AlertPlugin } from 'vux'
 import App from './App'
 import router from './router'
 import store from './store'
@@ -20,10 +20,10 @@ Vue.component(Qc.name, Qc)
 
 Vue.prototype.$http = http
 Vue.prototype.$wxSdk = wxSdk
-if(process.env.NODE_ENV === 'production') {
+if (process.env.NODE_ENV === 'production') {
   console.log('production');
-  Vue.prototype.$ROOTURL = location.origin + location.pathname.match(/^\/\w+/g)[0] ;
-} else if(process.env.NODE_ENV === 'development') {
+  Vue.prototype.$ROOTURL = location.origin + location.pathname.match(/^\/\w+/g)[0];
+} else if (process.env.NODE_ENV === 'development') {
   console.log('development');
 }
 Vue.prototype.imgHost = 'http://athena-1255600302.cosgz.myqcloud.com'

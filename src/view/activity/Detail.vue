@@ -20,18 +20,18 @@
     <ul class="lists">
       <li class="list">
         <i class="iconfont icon-shijian"></i>
-        <span class="value">{{model.startTime | formatDate}}&nbsp;至&nbsp;{{model.endTime | formatDate}}</span>
+        <span class="value">{{model.startTimeStr}}&nbsp;至&nbsp;{{model.endTimeStr}}</span>
       </li>
       <li class="list">
         <i class="iconfont icon-dizhi"></i>
         <span class="value">{{model.address}}</span>
       </li>
       <li class="list" v-if="model.sponsor">
-        <i class="iconfont icon-dizhi"></i>
+        <i class="iconfont icon-zhu"></i>
         <span>{{model.sponsor}}</span>
       </li>
       <li class="list" v-if="model.organizer">
-        <i class="iconfont icon-dizhi"></i>
+        <i class="iconfont icon-xie"></i>
         <span>{{model.organizer}}</span>
       </li>
     </ul>
@@ -64,13 +64,13 @@
     <!-- 广告 -->
     <Qc/>
     <!-- 按钮组 -->
-    <div class="bottom-group vux-1px-t" v-if="model.isRelease">
+    <div class="button-group vux-1px-t" v-if="model.isRelease">
       <div class="left" @click="jumpPage('/activity')">
         <i class="iconfont icon-huodong"></i>
         <p>更多活动</p>
       </div>
       <div class="right disabled" v-if="matchTime == 0">未开始</div>
-      <div class="right disabled" v-else-if="matchTime == 1">已结束</div>
+      <div class="right disabled" v-else-if="matchTime == 1">报名已截止</div>
       <div class="right" v-else-if="model.sign && model.sign.status == 1" >审核中</div>
       <div class="right pay" v-else-if="model.sign && model.sign.status == 4" @click="apiPayOrder()">微信支付</div>
       <div class="right" v-else-if="model.sign && model.sign.status == 6">报名成功</div>
@@ -158,6 +158,7 @@ export default {
             url,
             `${this.imgHost}${this.model.iconUrl}`,
             this.recordShare);
+          localStorage.setItem('shareData',`${this.model.title},,${this.model.info},,${url},,${this.imgHost}${this.model.iconUrl}`)
         })
         .catch(err => {
           if (err.data.code == 40001) {

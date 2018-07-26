@@ -36,7 +36,13 @@
         </div>
       </div>
     </div>
-    <Qc style="position: fixed;width: 100%;bottom: 0;"/>
+    <Qc style="margin-top:40px;"/>
+    <div class="mask" v-if="shareWrap">
+      <img class="share-nav" src="../../../static/image/share-nav.png" alt="" srcset="">
+      <img class="share-bg" src="../../../static/image/share.jpg" alt="" srcset="">
+      <p class="text">邀请好友一起参加吧！</p>
+      <i class="iconfont icon-x" @click="shareWrap = false"></i>
+    </div>
   </div>
 </template>
 
@@ -45,13 +51,26 @@
 export default {
   data() {
     return {
+      shareWrap: false,
       type: "",
       activityNum: {}
     };
   },
   created() {
+    let shareData = localStorage.getItem('shareData').split(',,')
+    // 分享配置
+    this.$wxSdk.onMenuShare(shareData[0], shareData[1], shareData[2], shareData[3],
+      () => {
+        this.shareWrap = false
+      }
+    )
     this.type = this.$route.query.type;
     this.apiGetActivityNum();
+  },
+  mounted() {
+    setTimeout(()=> {
+      this.shareWrap = true
+    },1500)
   },
   methods: {
     apiGetActivityNum() {
@@ -63,6 +82,14 @@ export default {
     jumpPage(url) {
       this.$router.push(url);
     }
+  },
+  destroyed() {
+    localStorage.removeItem('shareData')
+    this.$wxSdk.onMenuShare(
+      "加速商学院",
+      "助力优秀企业加速发展！",
+      `${this.$ROOTURL}/mobile/POUND/activity?wo=1&wot=2&woacm=1&mpl=1`,
+      "http://athena-1255600302.cosgz.myqcloud.com/attachments/abs.jpg");
   }
 };
 </script>
@@ -178,6 +205,43 @@ export default {
           height: 100%;
         }
       }
+    }
+  }
+  .center {
+    position: absolute;
+    top: 150px;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+  .mask {
+    width: 100%;
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    background: rgba(0, 0, 0, 0.75);
+    .share-nav {
+      width: 40%;
+      position: absolute;
+      right: 15px;
+      top: 10px;
+    }
+    .share-bg {
+      .center;
+      width: 78%;
+      top: 180px;
+    }
+    .text {
+      .center;
+      top: 235px;
+      font-size: 16px;
+      color: #fff;
+    }
+    .iconfont {
+      .center;
+      top: 330px;
+      font-size: 35px;
+      color: #fff;
     }
   }
 }

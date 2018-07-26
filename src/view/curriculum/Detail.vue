@@ -48,7 +48,7 @@
     <Qc/>
     <div style="height:15vw"></div>
     <!-- 按钮组 -->
-    <div class="bottom-group vux-1px-t" v-if="detail.isRelease">
+    <div class="button-group vux-1px-t" v-if="detail.isRelease">
       <div class="left" @click="jumpPage('/curriculum')">
         <i class="iconfont icon-kecheng2"></i>
         <p>更多课程</p>
