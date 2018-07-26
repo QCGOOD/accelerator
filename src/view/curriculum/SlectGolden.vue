@@ -92,6 +92,9 @@ export default {
     getHeight () {
       this.wrapHeight = window.innerHeight;
     },
+    jumpPage(url) {
+      this.$router.push(url);
+    },
     change(i) {
       this.active = i;
       if(i == this.commonList.length){
@@ -127,24 +130,6 @@ export default {
       }).catch(res =>
         alert(res.data.message)
       )
-      
-      // if(this.model.imgList.length >= 9){
-      //   // 显示文字
-      //   this.$vux.toast.text('最多可上传9张')
-      //   return;
-      // }
-
-      // let file = e.target.files[0];
-      // // console.log(e.target.files[0])
-      // let params = new FormData(); //创建form对象
-        
-      //   params.append('file',file,file.name);//通过append向form对象添加数据
-      //   params.append('imageType','radio');//添加form表单中其他数据
-
-      // this.$http.upLoad('/attachments/images/tencent_cloud', params).then(res => {
-      //   console.log(res)
-      //   // this.model.imgList.push(res.data.data)
-      // })
     },
 
     pickImg(i) {
