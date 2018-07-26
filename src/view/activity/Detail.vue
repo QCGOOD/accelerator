@@ -101,7 +101,8 @@ export default {
     return {
       model: {},
       pageNoData: false,
-      lastTime: ""
+      lastTime: "",
+      user: {}
     };
   },
   computed: {
@@ -128,16 +129,22 @@ export default {
   },
   created() {
     this.query = this.$route.query;
-    this.apiGetActive(this.query.id, this.query.shareMemberId);
+    this.apiGetUser();
   },
   methods: {
+    apiGetUser() {
+      this.$http.get("/member/info").then(res => {
+        this.user = res.data.data;
+        this.apiGetActive(this.query.id, this.query.shareMemberId);
+      });
+    },
     apiGetActive(id, shareMemberId) {
       this.$http.get("/activity/get", { id, shareMemberId })
         .then(res => {
           this.model = res.data.data;
           document.title = this.model.title;
           // 分享链接
-          let url = `${this.$ROOTURL}/mobile/POUND/activity/detail?wo=1&wot=2&woacm=1&mpl=1&id=${id}&shareMemberId=${this.userInfo.id}`;
+          let url = `${this.$ROOTURL}/mobile/POUND/activity/detail?id=${id}&shareMemberId=${this.userInfo.id}${this.user.shareParameter}`;
           if (this.userInfo.is_distributer) {
             // 分销分享链接
             url += `&dst=1&dstr=${this.userInfo.id}`;
