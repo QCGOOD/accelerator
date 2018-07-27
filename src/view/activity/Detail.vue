@@ -145,10 +145,10 @@ export default {
           document.title = this.model.title;
           // 分享链接
           let url = `${this.$ROOTURL}/mobile/POUND/activity/detail?id=${id}&shareMemberId=${this.userInfo.id}${this.user.shareParameter}`;
-          if (this.userInfo.is_distributer) {
-            // 分销分享链接
-            url += `&dst=1&dstr=${this.userInfo.id}`;
-          }
+          // if (this.userInfo.is_distributer) {
+          //   // 分销分享链接
+          //   url += `&dst=1&dstr=${this.userInfo.id}`;
+          // }
           // 倒计时
           this.countDown(this.model.startTime);
           // 分享配置
