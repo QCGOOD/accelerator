@@ -144,7 +144,7 @@ export default {
           this.model = res.data.data;
           document.title = this.model.title;
           // 分享链接
-          let url = `${this.$ROOTURL}/mobile/POUND/activity/detail?id=${id}&shareMemberId=${this.userInfo.id}${this.user.shareParameter}`;
+          let url = `${this.$ROOTURL}/mobile/POUND/activity/detail?id=${id}${this.user.shareParameter}`;
           // if (this.userInfo.is_distributer) {
           //   // 分销分享链接
           //   url += `&dst=1&dstr=${this.userInfo.id}`;

@@ -71,11 +71,12 @@ export default {
     return {
       showToast: true,
       detail: {},
-      pageNoData: false
+      pageNoData: false,
+      user: {}
     }
   },
   created() {
-    this.apiGetOne()
+    this.apiGetUser()
   },
   computed: {
     userInfo() {
@@ -83,6 +84,12 @@ export default {
     }
   },
   methods: {
+    apiGetUser() {
+      this.$http.get("/member/info").then(res => {
+        this.user = res.data.data;
+        this.apiGetOne()
+      });
+    },
     apiPayOrder() {
       this.$vux.loading.show({ text: "正在发起支付" });
       this.$http
@@ -102,10 +109,10 @@ export default {
         document.title = this.detail.title;
         this.detail.content = this.detail.content.replace(/width: 100%;/g, '')
         // 分享
-        let url = `${this.$ROOTURL}/mobile/POUND/curriculum/detail?wo=1&wot=2&woacm=1&mpl=1&id=${this.$route.query.id}&shareMemberId=${this.userInfo.id}`
-        if (this.userInfo.is_distributer) {
-          url += `&dst=1&dstr=${this.userInfo.id}`;
-        }
+        let url = `${this.$ROOTURL}/mobile/POUND/curriculum/detail?id=${this.$route.query.id}${this.user.shareParameter}`
+        // if (this.userInfo.is_distributer) {
+        //   url += `&dst=1&dstr=${this.userInfo.id}`;
+        // }
         this.$wxSdk.onMenuShare(
           this.detail.title,
           this.detail.info,
