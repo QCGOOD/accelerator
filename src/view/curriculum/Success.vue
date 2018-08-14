@@ -4,7 +4,7 @@
       <div class="gou" v-if="type == 0">
         <i class="iconfont icon-chenggong"></i>
         <p>报名成功！</p>
-        <p class="desc">我们将尽快安排工作人员与您联系，请保持手机畅通噢~</p>
+        <p class="desc">我们将尽快安排工作人员与您确认，请留意服务号信息，保持手机畅通噢~</p>
       </div>
       <div class="gou" v-else>
         <i class="iconfont icon-chenggong"></i>

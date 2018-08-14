@@ -305,8 +305,8 @@ export default {
       this.apiCouponDetail(couponRuleId)
       // 分享 -- 试听券
       this.$wxSdk.onMenuShare(
-        "我在加速商学院学习，感觉挺不错，你也来看看吧~",
-        `课程试听券等你来拿，手快有，手慢无~`,
+        "您的朋友给您分享了一个干货多多学习活动~",
+        `领券即两人免费同行，请轻点~`,
         `${this.$ROOTURL}/mobile/POUND/user/summaryDetail?isShare=true&id=${this.$route.query.id}&actId=${this.$route.query.actId}${this.user.shareParameter}&shareMemberId=${this.user.id}`,
         'http://athena-1255600302.cosgz.myqcloud.com/attachments/activity/fea644b6d6294c3fad029769d69de5f4.png',
         this.recordShare

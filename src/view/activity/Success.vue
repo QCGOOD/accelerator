@@ -40,7 +40,7 @@
     <div class="mask" v-if="shareWrap">
       <img class="share-nav" src="../../../static/image/share-nav.png" alt="" srcset="">
       <img class="share-bg" src="../../../static/image/share.jpg" alt="" srcset="">
-      <p class="text">邀请好友一起参加吧！</p>
+      <p class="text">好的学习机会是赠予学友的好礼物。邀请TA一起参加吧！</p>
       <i class="iconfont icon-x" @click="shareWrap = false"></i>
     </div>
   </div>
@@ -233,7 +233,7 @@ export default {
     }
     .text {
       .center;
-      top: 235px;
+      top: 208px;
       font-size: 16px;
       color: #fff;
     }

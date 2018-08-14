@@ -10,8 +10,8 @@
           <span>{{item.signTimeStr}}</span>
         </p>
         <p class="content">
-          <span class="name" v-for="list in item.signDataList" :key="list.id" v-if="list.name == '姓名'">{{list.value | formatName}}</span>
-          <span v-else-if="list.name == '手机'">{{list.value | formatPhome}}</span>
+          <span class="name" v-for="list in item.signDataList" :key="list.id" v-if="list.name == '姓名'">{{list.value}}</span>
+          <span v-else-if="list.name == '手机'">{{list.value}}</span>
           <span v-else-if="list.value">{{list.value}}</span>
         </p>
       </div>
